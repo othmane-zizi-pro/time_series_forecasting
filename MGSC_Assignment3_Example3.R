@@ -28,7 +28,7 @@ test_data  = window(tsdata, start = c(2013,1))
 # Q4
 us.naive = naive(train_data, h = length(test_data))
 us.ave   = meanf(train_data, h = length(test_data))
-us.drift = rwf(train_data, h = length(test_data))
+us.drift  = rwf(train_data, drift=TRUE, h=length(test_data))
 us.sma   = sma(train_data, order = 4, h = length(test_data))
 us.ses   = ses(train_data, h = length(test_data))
 us.ets   = forecast(ets(train_data), h = length(test_data))
@@ -45,6 +45,7 @@ accuracy(us.ets$mean, test_data)
 accuracy(us.arma$mean, test_data)
 accuracy(us.arima$mean, test_data)
 accuracy(us.sarima$mean, test_data)
+
 
 
 
