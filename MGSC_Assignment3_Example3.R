@@ -12,40 +12,39 @@ library(smooth)
 library(fpp2)
 
 # Q1
-usdata = read.csv(****)
-
+usdata = read.csv("USchange data.csv")
 
 
 # Q2 
-consumption=tsdata[,"Consumption"]  # this step extracts a column from the excel
+consumption=usdata[,"Consumption"]  # this step extracts a column from the excel
 
-tsdata = ts(****, start = c(1970,1)，freq = *****) #hint: choose between freq=4 and freq=12?
+tsdata = ts(consumption, start = c(1970,1), freq = 4) #hint: choose between freq=4 and freq=12?
 
 
 # Q3
-train_data = window(****, end = ****)
-test_data  = window(****, start = ****)
+train_data = window(tsdata, end = c(2012,4))
+test_data  = window(tsdata, start = c(2013,1))
 
 # Q4
-us.naive  = naive(train_data, h=nrow(test_data))
-us.ave    = meanf(****, ****) 
-us.drift  = rwf(****, ****)
-us.sma    = sma(****, ****)
-us.ses    = ses(****, ****)
-us.ets    = forecast(****, ****)
-us.arma   = forecast(auto.arima(****,d=****,seasonal=FALSE), h=nrow(test_data))
-us.arima  = forecast(auto.arima(****,seasonal=FALSE), h=****)
-us.sarima = forecast(auto.arima(****), h=****)
+us.naive = naive(train_data, h = length(test_data))
+us.ave   = meanf(train_data, h = length(test_data))
+us.drift = rwf(train_data, h = length(test_data))
+us.sma   = sma(train_data, order = 4, h = length(test_data))
+us.ses   = ses(train_data, h = length(test_data))
+us.ets   = forecast(ets(train_data), h = length(test_data))
+us.arma  = forecast(auto.arima(train_data, d = 0, seasonal = FALSE), h = length(test_data))
+us.arima = forecast(auto.arima(train_data, seasonal = FALSE), h = length(test_data))
+us.sarima = forecast(auto.arima(train_data), h = length(test_data))
 
 accuracy(us.naive$mean, test_data)
-accuracy(****, ****)
-accuracy(****, ****)
-accuracy(****, ****)
-accuracy(****, ****)
-accuracy(****, ****)
-accuracy(****, ****)
-accuracy(****, ****)
-accuracy(****, ****)
+accuracy(us.ave$mean, test_data)
+accuracy(us.drift$mean, test_data)
+accuracy(us.sma$forecast, test_data)
+accuracy(us.ses$mean, test_data)
+accuracy(us.ets$mean, test_data)
+accuracy(us.arma$mean, test_data)
+accuracy(us.arima$mean, test_data)
+accuracy(us.sarima$mean, test_data)
 
 
 

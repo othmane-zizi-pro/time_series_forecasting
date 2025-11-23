@@ -7,8 +7,6 @@
 #Please submit the R script together with the word doc
 
 
-
-
 install.packages("readxl")
 
 library(readxl)
@@ -24,38 +22,38 @@ tsretail = ts(retaildata$A3349462J, start = c(1982,4), freq=12) # liquor sales
 
 
 #Q1.	 
-autoplot(*****)
+autoplot(tsretail)
 
 #Q2.  
-autoplot(decompose(*****, type = *****))
+autoplot(decompose(tsretail, type = "multiplicative"))
 
 
 #Q3. 
-train_data = window(*****, end=c(2011,12))
-test_data = window(*****, start=c(2012,1))
+train_data = window(tsretail, end=c(2011,12))
+test_data = window(tsretail, start=c(2012,1))
 
 #Q4.  
 retail.naive = naive(train_data, h=24)
-retail.ave   = meanf(*****, *****) 
-retail.drift = rwf(*****, *****)
-retail.sma   = sma(*****, *****)
-retail.ses   = ses(*****, *****)
-retail.ets   = forecast(*****, *****)
+retail.ave   = meanf(train_data, h=24) 
+retail.drift = rwf(train_data, h=24, drift=TRUE)
+retail.sma   = sma(train_data, order=12, h=24)
+retail.ses   = ses(train_data, h=24)
+retail.ets   = forecast(ets(train_data), h=24)
 
 autoplot(tsretail) +
   autolayer(retail.naive$mean, series = "Naive") +
-  autolayer(*****, series = "Average") +
-  autolayer(*****, series = "Drift") +
-  autolayer(*****, series = "SMA") +
-  autolayer(*****, series = "SES") +
-  autolayer(*****, series = "ETS") 
+  autolayer(retail.ave$mean, series = "Average") +
+  autolayer(retail.drift$mean, series = "Drift") +
+  autolayer(retail.sma$forecast, series = "SMA") +
+  autolayer(retail.ses$mean, series = "SES") +
+  autolayer(retail.ets$mean, series = "ETS") 
 
 
 
-accuracy(*****, *****)
-accuracy(*****, *****)
-accuracy(*****, *****)
-accuracy(*****, *****)
-accuracy(*****, *****)
-accuracy(*****, *****)
+accuracy(retail.naive, test_data)
+accuracy(retail.ave, test_data)
+accuracy(retail.drift, test_data)
+accuracy(retail.sma, test_data)
+accuracy(retail.ses, test_data)
+accuracy(retail.ets, test_data)
  

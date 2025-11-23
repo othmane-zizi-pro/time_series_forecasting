@@ -13,64 +13,64 @@ library(fpp2)
 
 #Q1 (2 points)----------------------------------------------------------------------------------
 
-bikedata = read.csv(*****)
-number_of_rows=nrow(*****)
+bikedata = read.csv("bikesharing.csv")
+number_of_rows = nrow(bikedata)
+
 
 #Q2 (2 points)----------------------------------------------------------------------------------
-tsbike = ts(*****,frequency = 1)
-
+tsbike = ts(bikedata$trip, frequency = 1)
 
 
 #Q3 (4points) ----------------------------------------------------------------------------------
 
-autoplot(*****) +
-  ylab(*****) +
-  ggtitle(*****)
+autoplot(tsbike) +
+  ylab("Trips") +
+  ggtitle("Daily Bluebike Trips")
 
 
 
 #Q4 (8 points) ----------------------------------------------------------------------------------
 
-ggAcf(*****, lag.max=*****)
+ggAcf(tsbike, lag.max = 200)
 
- 
+
 #Q5 (8 points)
- ggAcf(*****, lag.max=*****)
+ggAcf(tsbike, lag.max = 800)
 
 
 
 #Q6 (4 points) ----------------------------------------------------------------------------------
 
-ggPacf(*****, lag.max = *****)
+ggPacf(tsbike, lag.max = 100)
 
  
 #Q7 (20 points) ----------------------------------------------------------------------------------
 
 #(a)
-train_data = window(*****, end = *****)
-test_data = window(*****, start = *****)
+train_data = window(tsbike, end = 1400)
+test_data  = window(tsbike, start = 1401)
 
 
 #(b)
 
-naive_bike = naive(*****, h=*****, level= ***** )
+naive_bike = naive(train_data, h = 24, level = c(80, 99))
 naive_bike
 
 
 #(c)	
-autoplot(*****) +
-  autolayer(*****, series="Naive")
+autoplot(train_data) +
+  autolayer(fitted(naive_bike), series="Naive")
 
 
 #(d) 
-autoplot(*****) +
-  autolayer(*****, series="Naive")
+autoplot(tsbike) +
+  autolayer(naive_bike, series="Naive")
+
 
 #(e).	
-checkresiduals(*****)
+checkresiduals(naive_bike)
 
 #(f)
-accuracy(*****, *****)
- 
+accuracy(naive_bike, test_data)
 
 
