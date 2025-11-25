@@ -59,7 +59,7 @@ naive_bike
 
 #(c)	
 autoplot(train_data) +
-  autolayer(naive_bike, series="Naive")
+  autolayer(fitted(naive_bike), series="Naive")
 
 
 #(d) 
@@ -73,6 +73,7 @@ checkresiduals(naive_bike)
 
 #(f)
 accuracy(naive_bike, test_data)
+
 
 
 
