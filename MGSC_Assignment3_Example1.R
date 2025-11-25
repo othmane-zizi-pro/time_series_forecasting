@@ -63,6 +63,10 @@ autoplot(train_data) +
 
 
 #(d) 
+
+autoplot(tsbike) + 
+  autolayer(naive_bike, series="Naive")
+
 autoplot(tsbike) + 
   autolayer(naive_bike, series="Naive") + 
   autolayer(test_data, series="Test", linetype="dashed", color="black")
@@ -73,6 +77,7 @@ checkresiduals(naive_bike)
 
 #(f)
 accuracy(naive_bike, test_data)
+
 
 
 
